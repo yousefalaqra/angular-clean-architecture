@@ -1,0 +1,3 @@
+<ng-container *ngFor="let product of products | async">
+    <product-item [product]="product" (onProduct)="onProductClick($event)"></product-item>
+</ng-container>
