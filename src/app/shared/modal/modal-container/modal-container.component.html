@@ -1,0 +1,18 @@
+<div *ngIf="isVisible" class="modal-container">
+  <div class="modal fade-in">
+    <div class="modal-header">
+      <div (click)="onCloseClick()" class="close">
+        <svg xmlns="http://www.w3.org/2000/svg"  width="9px" height="15px" viewBox="0 0 10 10">
+          <g fill="none" fill-rule="evenodd">
+              <g [attr.fill]="'#000'" fill-rule="nonzero">
+                  <g>
+                      <path d="M.14.83C-.045.643-.045.333.14.14c.194-.187.498-.187.69 0l4.141 4.147L9.12.14c.186-.187.497-.187.683 0 .193.193.193.504 0 .69l-4.14 4.14 4.14 4.148c.193.187.193.497 0 .69-.187.187-.497.187-.683 0L4.97 5.661.831 9.808c-.193.187-.497.187-.69 0-.187-.193-.187-.504 0-.69l4.14-4.147L.141.83z" transform="translate(-582 -1302) translate(582 1302)"/>
+                  </g>
+              </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <ng-content #body></ng-content>
+  </div>
+</div>

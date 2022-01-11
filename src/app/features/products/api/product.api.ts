@@ -10,9 +10,13 @@ export class ProductApi {
 
   constructor(private _http: HttpClient) {}
 
-  loadProducts(): Observable<Array<ProductResource>> {
-    return this._http
-      .get<{ products: Array<ProductResource> }>(`${this.API}/list`)
-      .pipe(map((res: { products: Array<ProductResource> }) => res.products));
+  loadProducts(): Observable<{ products: Array<ProductResource> }> {
+    return this._http.get<{ products: Array<ProductResource> }>(
+      `${this.API}/list`
+    );
+  }
+
+  loadProductDetails(productID: string): Observable<ProductResource> {
+    return this._http.get<ProductResource>(`${this.API}/${productID}/detail`);
   }
 }

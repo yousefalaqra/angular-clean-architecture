@@ -1,0 +1,75 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 999;
+
+  .modal {
+    position: absolute;
+    // top: 10%;
+    right: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -30%);
+
+    z-index: 2000;
+    min-height: 300px;
+    width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+
+    padding: 10px 20px;
+
+
+    display: flex;
+    flex-direction: column;
+  }
+
+
+}
+
+.modal-header{
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+
+  margin-bottom: 7px;
+
+  .close{
+    svg{
+      cursor: pointer;
+    }
+  }
+}
+
+
+.fade-in {
+  // top: ;
+  top: 30%;
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: .5s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  100% {
+    top: 30%;
+    opacity: 1;
+  }
+}

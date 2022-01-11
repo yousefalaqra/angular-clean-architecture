@@ -1,0 +1,16 @@
+<div class="product-card container" (click)="onProductClick()">
+  <div class="row wrap center">
+    <div class="col row center">
+      <div class="img">
+        <img src="{{ product.image }}" />
+      </div>
+    </div>
+
+    <div class="col row center">
+      <div class="product-info">
+        <h2>{{ product.name }}</h2>
+        <h3>{{ product.price | currency }}</h3>
+      </div>
+    </div>
+  </div>
+</div>

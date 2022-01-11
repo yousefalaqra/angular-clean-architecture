@@ -1,0 +1,11 @@
+@import "../../../../styles//color.scss";
+
+.header {
+  width: 100%;
+  background-color: $white-color;
+  display: flex;
+
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 5rem;
+}

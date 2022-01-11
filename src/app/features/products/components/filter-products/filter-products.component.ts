@@ -7,6 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class FilterProductsComponent {
   @Output() onFilterKeyChange = new EventEmitter<string>();
+  filterListInput: string = ""
 
   onFilterInputValueChange(key: string): void {
     this.onFilterKeyChange.emit(key);

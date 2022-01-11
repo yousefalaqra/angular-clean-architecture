@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ProductApi } from './api/product.api';
 import { ProductResource } from './resources/product.resource';
 import { ProductState } from './state/product.state';
@@ -15,22 +15,95 @@ export class ProductFacade {
     return this._productState.getProducts();
   }
 
-  getIsLoading(): Observable<boolean> {
-    return this._productState.getIsLoading();
+  getIsLoadingProductsList(): Observable<boolean> {
+    return this._productState.getIsLoadingProductsList();
+  }
+
+  getSelectedProduct(): Observable<ProductResource> {
+    return this._productState.getSelectedProduct();
+  }
+
+  getIsLoadingProductDetails(): Observable<boolean> {
+    return this._productState.getIsLoadingProductDetails();
+  }
+
+  getProductsListError(): Observable<boolean>{
+    return this._productState.getProductsListError();
+  }
+
+  getIsEmptyProductsList(): Observable<boolean>{
+    return this._productState.getIsEmptyProductsList()
+  }
+
+  getProductDetailsError(): Observable<boolean>{
+    return this._productState.getProductDetailsError();
+  }
+
+  getProductDetailsEndOfCycle(): Observable<boolean>{
+    return this._productState.getProductDetailsLifeCycleEnded()
+  }
+
+  getProductsListEndOfCycle(): Observable<boolean>{
+    return this._productState.getProductListLifeCycleEnded()
+  }
+
+  getShowProductDetailsModal(): Observable<{show: boolean, productID: string}>{
+    return this._productState.getShowProductDetailsModal()
+  }
+
+  getShowProductDetailsScreen(): Observable<string>{
+    return this._productState.getShowProductDetailsScreen()
   }
 
   loadProducts(): void {
-    this._productState.setIsLoading(true);
+    this._productState.setIsLoadingProductsList(true);
 
     this._productApi
       .loadProducts()
-      .subscribe((products: Array<ProductResource>) => {
-        this._productState.setProducts(products);
-        this._productState.setIsLoading(false);
+      .pipe(takeUntil(this._productState.getProductListLifeCycleEnded()))
+      .subscribe({
+        next: (response:  {products: Array<ProductResource> }) => {
+          this._productState.setProducts(response.products);
+          this._productState.setIsLoadingProductsList(false);
+        },
+        error: (error: any) => {
+          this._productState.setProductListError(true);
+          this._productState.setIsLoadingProductsList(false);
+        },
       });
   }
 
-  filterProducts(key: string | number): void {
-    this._productState.filterProducts(key);
+  loadProductDetails(productID: string): void {
+    this._productState.setIsLoadingProductDetails(true);
+
+    this._productApi
+      .loadProductDetails(productID)
+      .pipe(takeUntil(this._productState.getProductListLifeCycleEnded()))
+      .subscribe({
+        next: (product: ProductResource) => {
+          this._productState.setSelectedProduct(product);
+          this._productState.setIsLoadingProductDetails(false);
+        },
+        error: (error: any) => {
+          this._productState.setProductDetailsError(true);
+          this._productState.setIsLoadingProductDetails(false);
+        },
+      });
+  }
+
+  setProductsListEndOfCycle(): void{
+    this._productState.setProductsListLifeCycleEnded()
+  }
+
+  setProductDetailsEndOfCycle(): void{
+    this._productState.setProductDetailsLifeCycleEnded()
+  }
+
+  filterProducts(key: string): void {
+    this._productState.setFilteredProducts(key);
+  }
+
+  requestProductDetailsScreen(productID: string, screenWidth: number){
+    this._productState.requestProductDetailsScreen(productID, screenWidth)
   }
 }

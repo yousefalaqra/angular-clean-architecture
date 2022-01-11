@@ -1,0 +1,17 @@
+
+@import '../../../../styles//color.scss';
+
+.footer{
+    width: 100%;
+    background-color: $grey-color;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $white-color;
+
+    padding: 10px;
+    
+    
+}

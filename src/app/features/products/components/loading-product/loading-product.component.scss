@@ -1,0 +1,11 @@
+.icon-container {
+  object-fit: contain;
+ 
+  width: 15vw;
+  height: 15vh;
+  &.small {
+    width: 5vw;
+    height: 5vh;
+  }
+
+}

@@ -1,3 +1,42 @@
-<ng-container *ngFor="let product of products | async">
-    <product-item [product]="product" (onProduct)="onProductClick($event)"></product-item>
+<ng-container
+  *ngIf="isLoading | async; then loadingTemplate; else productsListTemplate"
+></ng-container>
+
+<ng-template #loadingTemplate>
+  <loading-product></loading-product>
+</ng-template>
+
+<ng-template #productsListTemplate>
+  <ng-container
+    *ngIf="isError | async; then errorTemplate; else successTemplate"
+  ></ng-container>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <h3>Ops! something went wrong while filling your store!</h3>
+</ng-template>
+
+<ng-template #successTemplate>
+  <div class="container">
+    <filter-products (onFilterKeyChange)="onFilterList($event)"></filter-products>
+    <div class="row wrap gap center">
+      <ng-container *ngIf="isEmpty | async; else productsTemplate">
+        <h3>Ops! no products were found!</h3>
+      </ng-container>
+      <ng-template #productsTemplate>
+        <div class="col s-2 m-3 l-6" *ngFor="let product of products | async">
+          <product-item
+            [product]="product"
+            (onProduct)="onProductClick($event)"
+          ></product-item>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="showProductDetailsModal | async as modalStatus">
+  <modal [isVisible]="modalStatus.show">
+    <product-details [productID]="modalStatus.productID"></product-details>
+  </modal>
 </ng-container>

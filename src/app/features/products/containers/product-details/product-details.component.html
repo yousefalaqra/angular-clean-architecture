@@ -1,0 +1,29 @@
+<div class="container">
+  <ng-container
+    *ngIf="isLoading | async; then loadingTemplate; else loadedTemplate"
+  ></ng-container>
+
+  <div class="product-image"></div>
+  <div class="product-info"></div>
+</div>
+
+<ng-template #loadingTemplate>
+  <loading-product></loading-product>
+</ng-template>
+
+<ng-template #loadedTemplate>
+  <ng-container *ngIf="!(isError | async); else errorTemplate">
+    <ng-container *ngIf="product | async as productDetails; else errorTemplate">
+      <div class="image">
+        <img src="{{ productDetails.image }}" alt="" />
+      </div>
+      <div class="product-info">
+        <h2>{{ productDetails.name }}</h2>
+        <h3>{{ productDetails.price | currency }}</h3>
+      </div>
+    </ng-container>
+  </ng-container>
+  <a [routerLink]="['/products']">< see more product</a>
+</ng-template>
+
+<ng-template #errorTemplate> Ops! No product was found! </ng-template>

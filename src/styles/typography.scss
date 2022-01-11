@@ -1,0 +1,73 @@
+@import "./color.scss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+}
+
+h1 {
+  font-size: 1rem; // 32px =? 16px
+  font-weight: bold;
+  letter-spacing: -0.77px;
+  color: $primary-color;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h2 {
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: -0.58px;
+  color: $primary-color;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+h3 {
+  font-size: 0.56rem;
+  font-weight: normal;
+  letter-spacing: -0.43px;
+  color: $primary-color;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+a {
+  font-size: 0.4rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.07;
+  letter-spacing: normal;
+  color: $blue-color;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+input {
+  font-size: 0.3rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.07;
+  letter-spacing: normal;
+  &::placeholder{
+    color: $grey-color;
+  }
+}
+@media (min-width: 768px) {
+  * {
+    font-size: 24px;
+  }
+}
+
+// Extra large devices: desktops
+@media (min-width: 1200px) {
+  * {
+    font-size: 32px;
+  }
+}
