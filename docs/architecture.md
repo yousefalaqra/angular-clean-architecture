@@ -9,6 +9,9 @@ To Create simplicity out of complexity, then scalability is a core principle tha
 
 One of the things that i love about Angular framework is the that it was designed and structured in such a way to forces developers to do things in the proper way, even so, there're so many places where you can mess up. So the goal is to apply best practices in order to keep our application simple, and being scalable (adaptive to changes) at the same time. The question is how?
 
+# The whole picture of the design of the system 
+![Decomposing diagram-a](/docs/assets/arc.jpg?raw=true)
+
 ## Decomposing
 
 The idea here to decompose our application into multiple layers by defining the proper responsibility of each layer and the communication roles between them. As you can see in the diagram below, the app was decomposed into three main layers, **core layer** which manages the state, business logic, and to communicate with the outer world, **presentation layer** to present and to delegate users' actions, and the presentation and core layers are allowed to communicate with each others only through the **abstraction layer** which abstracts the functionalities of the core layer to serve the presentation layer.
@@ -289,6 +292,6 @@ In the end, what really matters are the people, either the ones who work with us
 
 wondering what's next?
 1. [Project setup and installations](/docs/setup.md) 
-3. [Requirements speciation](/docs/srs.md)
-2. [UI/UX Design](/docs/interface.md)
+2. [Requirements speciation](/docs/srs.md)
+3. [UI/UX Design](/docs/interface.md)
 4. [What can be done better?](/docs/improvements.md)
