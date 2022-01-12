@@ -1,17 +1,18 @@
+@import "../../../../styles//color.scss";
 
-@import '../../../../styles//color.scss';
+.footer {
+  width: 100%;
+  background-color: $grey-color;
 
-.footer{
-    width: 100%;
-    background-color: $grey-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  color: $white-color;
 
-    color: $white-color;
+  padding: 10px;
 
-    padding: 10px;
-    
-    
+  span {
+    color: $secondary-color;
+  }
 }

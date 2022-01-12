@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, takeUntil } from 'rxjs';
 import { ProductFacade } from '../../product.facade';
@@ -14,27 +14,33 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isLoading: Observable<boolean>;
   isError: Observable<boolean>;
   isEmpty: Observable<boolean>;
-  showProductDetailsModal: Observable<{ show: boolean; productID: string }>;
+  showProductDetailsModal: Observable<boolean>;
   showProductDetailsScreen: Observable<string>;
 
-  constructor(private _productFacade: ProductFacade, private _router: Router, private _route: ActivatedRoute) {
+  constructor(
+    private _productFacade: ProductFacade,
+    private _router: Router,
+    private _route: ActivatedRoute,
+  ) {
     this.products = this._productFacade.getProducts();
     this.isLoading = this._productFacade.getIsLoadingProductsList();
     this.isError = this._productFacade.getProductsListError();
     this.isEmpty = this._productFacade.getIsEmptyProductsList();
     this.showProductDetailsModal =
       this._productFacade.getShowProductDetailsModal();
-      this.showProductDetailsScreen = this._productFacade.getShowProductDetailsScreen()
+    this.showProductDetailsScreen =
+      this._productFacade.getShowProductDetailsScreen();
   }
 
   ngOnInit(): void {
     this._productFacade.loadProducts();
 
+
     this.showProductDetailsScreen
       .pipe(takeUntil(this._productFacade.getProductsListEndOfCycle()))
       .subscribe({
         next: (productID: string) => {
-          this.navigateToProductDetails(productID)
+          this.navigateToProductDetails(productID);
         },
       });
   }
@@ -51,7 +57,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   navigateToProductDetails(productID: string): void {
-    this._router.navigate(['../', productID], {relativeTo:  this._route});
+    this._router.navigate(['../', productID], { relativeTo: this._route });
+  }
+
+  onCloseModal(): void {
+    this._productFacade.closeProductDetailsModal();
   }
 
   ngOnDestroy(): void {

@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductDetailsComponent } from './containers/product-details/product-details.component';
 import { ProductListComponent } from './containers/product-list/product-list.component';
+import { ProductHomeComponent } from './containers/products-home/products-home.component';
 
 const routes: Routes = [
-  { path: 'list', component: ProductListComponent },
-  { path: ':id', component: ProductDetailsComponent },
-  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  {
+    path: '',
+    component: ProductHomeComponent,
+    children: [
+      { path: ':id', component: ProductDetailsComponent },
+      { path: '', component: ProductListComponent },
+    ],
+  },
 ];
 
 @NgModule({

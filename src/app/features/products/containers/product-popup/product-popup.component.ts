@@ -1,35 +1,33 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, takeUntil, takeWhile } from 'rxjs';
 import { ProductFacade } from '../../product.facade';
 import { ProductResource } from '../../resources/product.resource';
 
 @Component({
-  selector: 'product-details',
-  templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
+  selector: 'product-popup',
+  templateUrl: './product-popup.component.html',
 })
-export class ProductDetailsComponent implements OnInit, OnDestroy {
+export class ProductPopup implements OnInit, OnDestroy {
   @Input() productID!: string;
 
   product: Observable<ProductResource>;
   isError: Observable<boolean>;
   isLoading: Observable<boolean>;
-  constructor(
-    private _productFacade: ProductFacade,
-    private _route: ActivatedRoute
-  ) {
+
+  constructor(private _productFacade: ProductFacade) {
     this.product = this._productFacade.getSelectedProduct();
     this.isError = this._productFacade.getProductDetailsError();
     this.isLoading = this._productFacade.getIsLoadingProductDetails();
   }
 
   ngOnInit(): void {
-    this._route.paramMap
-      .pipe(takeUntil(this._productFacade.getProductDetailsEndOfCycle()))
+    this._productFacade
+      .getSelectedProductID()
+      .pipe(takeWhile((x) => x != ''))
       .subscribe({
-        next: (params) => {
-          this.loadProduct(params.get('id') as string);
+        next: (id: string) => {
+          this._productFacade.loadProductDetails(id);
         },
       });
   }

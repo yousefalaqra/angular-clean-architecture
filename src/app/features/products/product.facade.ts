@@ -27,32 +27,36 @@ export class ProductFacade {
     return this._productState.getIsLoadingProductDetails();
   }
 
-  getProductsListError(): Observable<boolean>{
+  getProductsListError(): Observable<boolean> {
     return this._productState.getProductsListError();
   }
 
-  getIsEmptyProductsList(): Observable<boolean>{
-    return this._productState.getIsEmptyProductsList()
+  getIsEmptyProductsList(): Observable<boolean> {
+    return this._productState.getIsEmptyProductsList();
   }
 
-  getProductDetailsError(): Observable<boolean>{
+  getProductDetailsError(): Observable<boolean> {
     return this._productState.getProductDetailsError();
   }
 
-  getProductDetailsEndOfCycle(): Observable<boolean>{
-    return this._productState.getProductDetailsLifeCycleEnded()
+  getProductDetailsEndOfCycle(): Observable<boolean> {
+    return this._productState.getProductDetailsLifeCycleEnded();
   }
 
-  getProductsListEndOfCycle(): Observable<boolean>{
-    return this._productState.getProductListLifeCycleEnded()
+  getProductsListEndOfCycle(): Observable<boolean> {
+    return this._productState.getProductListLifeCycleEnded();
   }
 
-  getShowProductDetailsModal(): Observable<{show: boolean, productID: string}>{
-    return this._productState.getShowProductDetailsModal()
+  getShowProductDetailsModal(): Observable<boolean> {
+    return this._productState.getShowProductDetailsModal();
   }
 
-  getShowProductDetailsScreen(): Observable<string>{
-    return this._productState.getShowProductDetailsScreen()
+  getShowProductDetailsScreen(): Observable<string> {
+    return this._productState.getShowProductDetailsScreen();
+  }
+
+  getSelectedProductID(): Observable<string> {
+    return this._productState.getSelectedProductID();
   }
 
   loadProducts(): void {
@@ -62,7 +66,7 @@ export class ProductFacade {
       .loadProducts()
       .pipe(takeUntil(this._productState.getProductListLifeCycleEnded()))
       .subscribe({
-        next: (response:  {products: Array<ProductResource> }) => {
+        next: (response: { products: Array<ProductResource> }) => {
           this._productState.setProducts(response.products);
           this._productState.setIsLoadingProductsList(false);
         },
@@ -91,19 +95,23 @@ export class ProductFacade {
       });
   }
 
-  setProductsListEndOfCycle(): void{
-    this._productState.setProductsListLifeCycleEnded()
+  setProductsListEndOfCycle(): void {
+    this._productState.setProductsListLifeCycleEnded();
   }
 
-  setProductDetailsEndOfCycle(): void{
-    this._productState.setProductDetailsLifeCycleEnded()
+  setProductDetailsEndOfCycle(): void {
+    this._productState.setProductDetailsLifeCycleEnded();
   }
 
   filterProducts(key: string): void {
     this._productState.setFilteredProducts(key);
   }
 
-  requestProductDetailsScreen(productID: string, screenWidth: number){
-    this._productState.requestProductDetailsScreen(productID, screenWidth)
+  requestProductDetailsScreen(productID: string, screenWidth: number) {
+    this._productState.requestProductDetailsScreen(productID, screenWidth);
+  }
+
+  closeProductDetailsModal(): void {
+    this._productState.closeProductDetailsModal();
   }
 }

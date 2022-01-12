@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { ProductResource } from '../resources/product.resource';
 
 @Injectable()
@@ -16,11 +16,9 @@ export class ProductState {
   private productDetailsError = new BehaviorSubject<boolean>(false);
   private productsListLifeCycleEnded = new Subject<boolean>();
   private productDetailsLifeCycleEnded = new Subject<boolean>();
-  private showProductDetailsModal = new Subject<{
-    show: boolean;
-    productID: string;
-  }>();
+  private showProductDetailsModal = new Subject<boolean>();
   private showProductDetailsScreen = new Subject<string>();
+  private selectedProductID = new BehaviorSubject<string>('');
 
   getProducts(): Observable<Array<ProductResource>> {
     return this.products.asObservable();
@@ -58,15 +56,16 @@ export class ProductState {
     return this.isEmptyProductsList.asObservable();
   }
 
-  getShowProductDetailsModal(): Observable<{
-    show: boolean;
-    productID: string;
-  }> {
+  getShowProductDetailsModal(): Observable<boolean> {
     return this.showProductDetailsModal.asObservable();
   }
 
   getShowProductDetailsScreen(): Observable<string> {
     return this.showProductDetailsScreen.asObservable();
+  }
+
+  getSelectedProductID(): Observable<string> {
+    return this.selectedProductID.asObservable();
   }
 
   setProducts(products: Array<ProductResource>): void {
@@ -95,8 +94,16 @@ export class ProductState {
     const productsFilterList = [...this.productsCopy];
 
     const filteredProducts = productsFilterList.filter(
-      (x) => x.name.includes(key) || x.price == Number(key)
+      (x) =>
+        x.name.toLowerCase().includes(key.toLocaleLowerCase()) ||
+        x.price == Number(key)
     );
+
+    if (filteredProducts.length == 0) {
+      this.isEmptyProductsList.next(true);
+    } else {
+      this.isEmptyProductsList.next(false);
+    }
 
     this.products.next(filteredProducts);
   }
@@ -121,10 +128,17 @@ export class ProductState {
     // NOTE: should we display modal or screen for tablet devices?
     if (screenWidth >= 768) {
       // tablet and more
-      this.showProductDetailsModal.next({ show: true, productID: productID });
+      this.showProductDetailsModal.next(true);
+      this.selectedProductID.next(productID);
     } else {
       // phone devices
       this.showProductDetailsScreen.next(productID);
     }
+  }
+
+  closeProductDetailsModal(): void {
+    this.showProductDetailsModal.next(false);
+    this.selectedProductID.next('');
+
   }
 }

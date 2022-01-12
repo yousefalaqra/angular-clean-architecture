@@ -14,7 +14,6 @@ export class ModalContainerComponent implements OnInit {
   ngOnInit() {}
 
   onCloseClick(): void {
-    this.isVisible = false;
     this.onClose.emit();
   }
 }

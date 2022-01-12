@@ -1,15 +1,14 @@
 <div class="product-card container" (click)="onProductClick()">
-  <div class="row wrap center">
-    <div class="col row center">
+  <div class="row wrap center gap--lg">
+    <div class="col s-12 al-center">
       <div class="img">
         <img src="{{ product.image }}" />
       </div>
     </div>
-
-    <div class="col row center">
-      <div class="product-info">
-        <h2>{{ product.name }}</h2>
-        <h3>{{ product.price | currency }}</h3>
+    <div class="col s-12 al-center">
+      <div class="row wrap">
+        <h2 class="col s-12 al-center">{{ product.name }}</h2>
+        <h3 class="col s-12 al-center">{{ product.price | currency }}</h3>
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@
 }
 
 h1 {
-  font-size: 1rem; // 32px =? 16px
+  font-size: 1.5rem; // 32px =? 16px
   font-weight: bold;
   letter-spacing: -0.77px;
   color: $primary-color;
@@ -19,7 +19,7 @@ h1 {
 }
 
 h2 {
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: bold;
   letter-spacing: -0.58px;
   color: $primary-color;
@@ -28,7 +28,7 @@ h2 {
 }
 
 h3 {
-  font-size: 0.56rem;
+  font-size: 0.75rem;
   font-weight: normal;
   letter-spacing: -0.43px;
   color: $primary-color;
@@ -37,7 +37,7 @@ h3 {
 }
 
 a {
-  font-size: 0.4rem;
+  font-size: 0.62rem;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -49,25 +49,32 @@ a {
 }
 
 input {
-  font-size: 0.3rem;
+  font-size: 0.62rem;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.07;
   letter-spacing: normal;
-  &::placeholder{
+  &::placeholder {
     color: $grey-color;
   }
 }
+
+@media (min-width: 320px) {
+  * {
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 768px) {
   * {
-    font-size: 24px;
+    font-size: 18px;
   }
 }
 
 // Extra large devices: desktops
 @media (min-width: 1200px) {
   * {
-    font-size: 32px;
+    font-size: 24px;
   }
 }

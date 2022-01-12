@@ -4,14 +4,16 @@ import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
-    path: 'products',
+    path: 'list',
     loadChildren: () =>
       import('./features/products/products.module').then(
         (m) => m.ProductModule
       ),
   },
 
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  { path: '**', redirectTo: 'list' }
+
 ];
 
 @NgModule({
