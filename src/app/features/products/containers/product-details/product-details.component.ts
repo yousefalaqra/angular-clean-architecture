@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ProductFacade } from '../../product.facade';
 import { ProductResource } from '../../resources/product.resource';
 
@@ -10,8 +10,7 @@ import { ProductResource } from '../../resources/product.resource';
   styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  @Input() productID!: string;
-
+  productID: string = '';
   product: Observable<ProductResource>;
   isError: Observable<boolean>;
   isLoading: Observable<boolean>;
@@ -25,13 +24,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._route.paramMap
-      .pipe(takeUntil(this._productFacade.getProductDetailsEndOfCycle()))
-      .subscribe({
-        next: (params) => {
-          this.loadProduct(params.get('id') as string);
-        },
-      });
+    this.productID = this._route.snapshot.paramMap.get('id') as string;
+    this.loadProduct(this.productID);
   }
 
   loadProduct(id: string): void {

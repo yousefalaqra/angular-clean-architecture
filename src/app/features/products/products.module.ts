@@ -8,7 +8,7 @@ import { LoadingProductComponent } from './components/loading-product/loading-pr
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { ProductDetailsComponent } from './containers/product-details/product-details.component';
 import { ProductListComponent } from './containers/product-list/product-list.component';
-import { ProductPopup } from './containers/product-popup/product-popup.component';
+import { ProductPopupComponent } from './containers/product-popup/product-popup.component';
 import { ProductHomeComponent } from './containers/products-home/products-home.component';
 import { ProductFacade } from './product.facade';
 import { ProductRoutingModule } from './products.routing';
@@ -22,7 +22,7 @@ import { ProductState } from './state/product.state';
     FilterProductsComponent,
     LoadingProductComponent,
     ProductDetailsComponent,
-    ProductPopup
+    ProductPopupComponent
   ],
   providers: [ProductApi, ProductFacade, ProductState],
   imports: [ProductRoutingModule, SharedModule, IconsModule, ModalModule],

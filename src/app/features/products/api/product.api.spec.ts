@@ -5,7 +5,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { ProductResource } from '../resources/product.resource';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { BehaviorSubject, defer, of } from 'rxjs';
 
 export function asyncData<T>(data: T) {
@@ -56,10 +60,12 @@ describe('ProductApi', () => {
 
   it('#loadProductDetails should return expected product', (done) => {
     const testProductID: string = '1';
-    const tstProductData: ProductResource = 
-        { image: '', price: 2, name: 'Bananas', product_id: '1' };
-
-    
+    const tstProductData: ProductResource = {
+      image: '',
+      price: 2,
+      name: 'Bananas',
+      product_id: '1',
+    };
 
     productApi.loadProductDetails(testProductID).subscribe({
       next: (product) => {
@@ -69,7 +75,7 @@ describe('ProductApi', () => {
       },
       error: done.fail,
     });
-    
+
     const req = httpTestingController.expectOne(
       `https://s3-eu-west-1.amazonaws.com/developer-application-test/cart/${testProductID}/detail`
     );
@@ -81,21 +87,38 @@ describe('ProductApi', () => {
     httpTestingController.verify();
   });
 
-  //   it('#getValue should return real value', () => {
-  //     expect(service.getValue()).toBe('real value');
-  //   });
+  it('#loadProductDetails should return `400 Bad Request` error response with invalid productID', (done) => {
+    const testProductID: string = '233';
+    let headers = new HttpHeaders({
+      'Content-Type': 'text/xml',
+      Accept: 'text/xml',
+      'Response-Type': 'text',
+    });
 
-  //   it('#getObservableValue should return value from observable', (done: DoneFn) => {
-  //     service.getObservableValue().subscribe((value) => {
-  //       expect(value).toBe('observable value');
-  //       done();
-  //     });
-  //   });
+    const mockError = new HttpErrorResponse({
+      headers: headers,
+      status: 400,
+      statusText: 'Bad Request',
+    });
 
-  //   it('#getPromiseValue should return value from a promise', (done: DoneFn) => {
-  //     service.getPromiseValue().then((value) => {
-  //       expect(value).toBe('promise value');
-  //       done();
-  //     });
-  //   });
+    productApi.loadProductDetails(testProductID).subscribe({
+      next: () => {
+        done.fail();
+      },
+      error: (err) => {
+        expect(err.status).toEqual(mockError.status);
+        done();
+      },
+    });
+
+    const req = httpTestingController.expectOne(
+      `https://s3-eu-west-1.amazonaws.com/developer-application-test/cart/${testProductID}/detail`
+    );
+
+    expect(req.request.method).toEqual('GET');
+
+    req.flush(mockError, { status: 400, statusText: 'Bad Request' });
+
+    httpTestingController.verify();
+  });
 });

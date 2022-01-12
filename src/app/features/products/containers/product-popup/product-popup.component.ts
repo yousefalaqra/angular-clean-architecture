@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, takeUntil, takeWhile } from 'rxjs';
+import { Observable, takeWhile } from 'rxjs';
 import { ProductFacade } from '../../product.facade';
 import { ProductResource } from '../../resources/product.resource';
 
@@ -8,7 +7,7 @@ import { ProductResource } from '../../resources/product.resource';
   selector: 'product-popup',
   templateUrl: './product-popup.component.html',
 })
-export class ProductPopup implements OnInit, OnDestroy {
+export class ProductPopupComponent implements OnInit, OnDestroy {
   @Input() productID!: string;
 
   product: Observable<ProductResource>;

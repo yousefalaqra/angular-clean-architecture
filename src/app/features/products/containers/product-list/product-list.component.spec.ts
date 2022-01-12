@@ -4,25 +4,43 @@ import {
   ComponentFixtureAutoDetect,
   TestBed,
 } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { IconsModule } from 'src/app/shared/icons/icons.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { IconsModule } from 'src/styles/icons/icons.module';
 import { ProductApi } from '../../api/product.api';
 import { ProductItemComponent } from '../../components/product-item/product-item.component';
 import { ProductFacade } from '../../product.facade';
 import { ProductResource } from '../../resources/product.resource';
 import { ProductState } from '../../state/product.state';
+import { ProductPopupComponent } from '../product-popup/product-popup.component';
 import { ProductListComponent } from './product-list.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 let productsListComponent: ProductListComponent;
 let fixture: ComponentFixture<ProductListComponent>;
+const route = { data: of({ label: 'hello' }) } as any as ActivatedRoute;
 
 describe('ProductsListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, SharedModule, IconsModule],
-      providers: [ProductFacade, ProductState, ProductApi,  { provide: ComponentFixtureAutoDetect, useValue: true}],
-      declarations: [ProductListComponent, ProductItemComponent],
+      imports: [
+        HttpClientModule,
+        SharedModule,
+        IconsModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        ProductFacade,
+        ProductState,
+        ProductApi,
+        { provide: ComponentFixtureAutoDetect, useValue: true },
+      ],
+      declarations: [
+        ProductListComponent,
+        ProductItemComponent,
+        ProductPopupComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductListComponent);
@@ -33,22 +51,20 @@ describe('ProductsListComponent', () => {
     expect(productsListComponent).toBeTruthy();
   });
 
-  it(`should have error message 'Ops! something went wrong while filling your store!'`, (done) => {
+  it(`should have error message when is error is true`, (done) => {
     productsListComponent.isError = of(true);
     productsListComponent.isLoading = of(false);
     productsListComponent.isEmpty = of(false);
     fixture.detectChanges();
     setTimeout(() => {
       const messageElement = fixture.nativeElement.querySelector('h3');
-      expect(messageElement.textContent).toEqual(
-        'Ops! something went wrong while filling your store!'
-      );
+      expect(messageElement.textContent).toContain('Ops!!');
 
       done();
     });
   });
 
-  it(`should have empty list message 'Ops! no products were found!'`, (done) => {
+  it(`should have empty list message when isEmpty is true`, (done) => {
     productsListComponent.isEmpty = of(true);
     productsListComponent.isError = of(false);
     productsListComponent.isLoading = of(false);
@@ -56,9 +72,7 @@ describe('ProductsListComponent', () => {
 
     setTimeout(() => {
       const messageElement = fixture.nativeElement.querySelector('h3');
-      expect(messageElement.textContent).toEqual(
-        'Ops! no products were found!'
-      );
+      expect(messageElement.textContent).toContain('Are you hungry');
       done();
     });
   });
@@ -68,7 +82,8 @@ describe('ProductsListComponent', () => {
     fixture.detectChanges();
 
     setTimeout(() => {
-      const loadingIcon = fixture.nativeElement.querySelector('loading-apple');
+      const loadingIcon =
+        fixture.nativeElement.querySelector('loading-product');
       expect(loadingIcon).toBeTruthy();
       done();
     });
@@ -89,7 +104,17 @@ describe('ProductsListComponent', () => {
     fixture.detectChanges();
     setTimeout(() => {
       const productItem = fixture.nativeElement.querySelector('product-item');
-      expect(productItem).toBeTruthy()
+      expect(productItem).toBeTruthy();
+      done();
+    });
+  });
+
+  it(`should have product details modal when showProductDetailsModal status is true`, (done) => {
+    productsListComponent.showProductDetailsModal = of(true);
+    fixture.detectChanges();
+    setTimeout(() => {
+      const productItem = fixture.nativeElement.querySelector('modal');
+      expect(productItem).toBeTruthy();
       done();
     });
   });
