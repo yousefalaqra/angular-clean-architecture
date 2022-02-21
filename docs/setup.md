@@ -3,19 +3,19 @@
 ## Clone the repository
 
 ```
-git clone https://github.com/PicnicNext/picnic-recruitment-task-angular-yousefalaqra.git
+git clone https://github.com/yousefalaqra/angular-clean-architecture.git
 ```
 
 ## Navigate to project folder
 
 ```
-cd .\picnic-recruitment-task-angular-yousefalaqra>
+cd .\project-director
 ```
 
-## Switch to branch: **j/000**
+## Switch to branch: **main**
 
 ```
-git checkout  `j/0000`
+git checkout  `master`
 ```
 
 ## Install node_modules

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "picnic-recruitment-task-angular-yousefalaqra": {
+    "grocery-list": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -107,5 +107,5 @@
       }
     }
   },
-  "defaultProject": "picnic-recruitment-task-angular-yousefalaqra"
+  "defaultProject": "grocery-list"
 }

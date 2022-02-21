@@ -1,9 +1,5 @@
 # Requirements Speciation
 
-According to the provided denials and instructions at [Picnic Recruitment Task](/docs/picnic.md)
-We have the following user stories:
-
-
 ## User Stories
 
 ### Product listing
